@@ -1,0 +1,12 @@
+{
+  "files": [
+    {
+      "file_name": "dataset_subject_activity_trial.csv",
+      "activity": "ADL or Fall",
+      "subject": 1,
+      "label": 1,
+      "label_name": "walking",
+      "dataset": "UMAFall"
+    }
+  ]
+}

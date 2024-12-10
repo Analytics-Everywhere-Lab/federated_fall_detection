@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fl-fall"
+version = "1.0.0"
+description = ""
+license = "Apache-2.0"
+dependencies = [
+    "flwr[simulation]>=1.13.0",
+    "flwr-datasets[vision]>=0.3.0",
+    "tensorflow>=2.11.1,<2.18.0",
+    "wandb==0.17.8",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[tool.flwr.app]
+publisher = "fl-fall"
+
+[tool.flwr.app.components]
+serverapp = "fl_fall.server_app:app"
+clientapp = "fl_fall.client_app:app"
+
+[tool.flwr.app.config]
+num-server-rounds = 50
+local-epochs = 1
+batch-size = 64
+verbose = false
+use-wandb = true
+fraction-fit = 1.0
+fraction-evaluate = 1.0
+
+[tool.flwr.federations]
+default = "local-sim"
+
+[tool.flwr.federations.local-sim]
+options.num-supernodes = 22
+options.backend.client-resources.num-cpus = 2 # each ClientApp assumes to use 2CPUs
+options.backend.client-resources.num-gpus = 0.0 # ratio of VRAM a ClientApp has access to
+
+[tool.flwr.federations.local-sim-gpu]
+options.num-supernodes = 8
+options.backend.client-resources.num-cpus = 2
+options.backend.client-resources.num-gpus = 0.25
